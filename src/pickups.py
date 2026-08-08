@@ -1,3 +1,4 @@
+import random
 
 class Item:
     """Representerar saker man kan plocka upp."""
@@ -10,7 +11,7 @@ class Item:
         return self.symbol
 
 
-pickups = [Item("carrot"), Item("apple"), Item("strawberry"), Item("cherry"), Item("watermelon"), Item("radish"), Item("cucumber"), Item("meatball")]
+pickups = [Item("carrot"), Item("apple", 20), Item("strawberry", 20), Item("cherry", 20), Item("watermelon", 20), Item("radish"), Item("cucumber"), Item("meatball")]
 
 
 def randomize(grid):
@@ -23,3 +24,14 @@ def randomize(grid):
                 grid.set(x, y, item)
                 break  # avbryt while-loopen, fortsätt med nästa varv i for-loopen
 
+# create more fruits after 25 moves
+def spawn_fruit(grid):
+    item = random.choice(pickups)
+
+    while True:
+        x = grid.get_random_x()
+        y = grid.get_random_y()
+
+        if grid.is_empty(x, y):
+            grid.set(x, y, item)
+            break

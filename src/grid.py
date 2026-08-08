@@ -1,11 +1,18 @@
 import random
 
+
+
 class Grid:
     """Representerar spelplanen. Du kan ändra standardstorleken och tecknen för olika rutor. """
     width = 36
     height = 12
     empty = "."  # Tecken för en tom ruta
     wall = "■"   # Tecken för en ogenomtränglig vägg
+    trap = "T"   # Tecken för trap
+    shovel = "S" # Tecken för shovel
+    key = "K"    # Tecken för key
+    chest = "C"  # Tecken för chest
+
 
     def __init__(self):
         """Skapa ett objekt av klassen Grid"""
@@ -53,6 +60,21 @@ class Grid:
             self.set(j, 0, self.wall)
             self.set(j, self.height - 1, self.wall)
 
+        # Horisontell vägg
+        for x in range(5, 15):
+            self.set(x, 3, self.wall)
+
+        # Vertikal vägg
+        for y in range(3, 8):
+            self.set(15, y, self.wall)
+
+        # Horisontell vägg
+        for x in range(15, 27):
+            self.set(x, 7, self.wall)
+
+        # Vertikal vägg
+        for y in range(5, 8):
+            self.set(27, y, self.wall)
 
     # Används i filen pickups.py
     def get_random_x(self):
@@ -68,3 +90,49 @@ class Grid:
         """Returnerar True om det inte finns något på aktuell ruta"""
         return self.get(x, y) == self.empty
 
+    def place_trap(self):
+        """Placera en fälla på en slumpmässig tom ruta"""
+        while True:
+            x = random.randint(1, self.width - 2)
+            y = random.randint(1, self.height - 2)
+
+            if self.is_empty(x, y):
+                self.set(x, y, self.trap)
+                self.trap_x = x
+                self.trap_y = y
+                break
+
+    def place_shovel(self):
+        """Place a shovel on a random empty tile"""
+        while True:
+            x = random.randint(1, self.width - 2)
+            y = random.randint(1, self.height - 2)
+
+            if self.is_empty(x, y):
+                self.set(x, y, self.shovel)
+                return
+
+    def place_key(self):
+        """Place a key on a random empty tile"""
+        while True:
+            x = random.randint(1, self.width - 2)
+            y = random.randint(1, self.height - 2)
+
+            if self.is_empty(x, y):
+                self.set(x, y, self.key)
+                return
+
+    def place_chest(self):
+        """Place a chest on a random empty tile"""
+        while True:
+            x = random.randint(1, self.width - 2)
+            y = random.randint(1, self.height - 2)
+
+            if self.is_empty(x, y):
+                self.set(x, y, self.chest)
+                return
+
+    def place_keys_and_chests(self, amount):
+        for _ in range(amount):
+            self.place_key()
+            self.place_chest()
