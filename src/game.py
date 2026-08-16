@@ -1,11 +1,8 @@
-from tokenize import maybe
-from self import self
-
-import player
-from player import Player, handle_movement
 from src.grid import Grid
 from src.player import Player
+from src.movement import handle_movement, show_inventory
 from src import pickups
+
 
 
 # TODO: flytta denna till en annaDn fil
@@ -45,7 +42,7 @@ def start(state):
         command = command.casefold()[:1]
         # print inventory
         if command == "i":
-            player.show_inventory(state.player)
+            show_inventory(state.player)
             continue
 
 
